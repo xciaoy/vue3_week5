@@ -48,7 +48,7 @@ const app = Vue.createApp({
           this.products = res.data.products;
         })
         .catch((err) => {
-          alert('取得產品列表失敗');
+          alert(err.data.message);
       });
     },
     openProductModal(id) {
@@ -61,7 +61,7 @@ const app = Vue.createApp({
           this.cartData = res.data.data;
         })
         .catch((err) => {
-          alert('取得購物車列表失敗');
+          alert(err.data.message);
       });
     },
     addToCart(id, qty = 1) {
@@ -75,9 +75,10 @@ const app = Vue.createApp({
           this.getCart();
           this.$refs.productModal.closeModal();
           this.isLoadingItem = ''
+          alert(res.data.message);
         })
         .catch((err) => {
-          alert('加入購物車失敗');
+          alert(err.data.message);
       });
     },
     removeCartItem(id) {
@@ -86,7 +87,20 @@ const app = Vue.createApp({
         .then((res) => {
           this.getCart();
           this.isLoadingItem = '';
+          alert(res.data.message);
         })
+        .catch((err) => {
+          alert(err.data.message);
+      });
+    },
+    removeAllCarts() {
+      axios.delete(`${apiUrl}/api/${path}/carts`)
+      .then((res) => {
+        alert(res.data.message);
+        this.getCart();
+      }).catch((err) => {
+        alert(err.data.message);
+      });
     },
     updateCartItem(item) {
       const data = {
@@ -98,9 +112,10 @@ const app = Vue.createApp({
         .then((res) => {
           this.getCart();
           this.isLoadingItem = '';
+          alert(res.data.message);
         })
         .catch((err) => {
-          alert('更新購物車失敗');
+          alert(err.data.message);
       });
     },
     // 電話檢核規則
@@ -150,7 +165,7 @@ app.component('product-modal', {
           this.product = res.data.product;
         })
         .catch((err) => {
-          alert('取得產品失敗');
+          alert(err.data.message);
       });
     },
     addToCart(){
